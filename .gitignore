@@ -16,3 +16,6 @@ css/style.css
 css/confirmation.css
 css/cart.css
 back/requete.js
+front/html/js/script.js
+front/html/js/product.js
+.gitignore
