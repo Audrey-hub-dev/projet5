@@ -1,28 +1,30 @@
 
-/** The using of localStorage */
-
-const idForm = document.querySelector("item__content__settings"); 
-const ajouterAuPanier = document.querySelector("item__content__addButton"); 
 
 
-//Ecouter le bouton//
+// étape 7 : ajouter des produits dans le panier 
+
+//Panier
+const choixColor = document.querySelector("colors");
+const choixQuantity = document.querySelector("quantity"); 
+const ajouterAuPanier = document.querySelector("addToCart"); 
+
+//Ecouter le bouton addToCart 
 ajouterAuPanier.addEventListener("click", (event) => {
-  event.preventDefault();
+  event.preventDefault(); 
 
 //Mettre le choix de l'utilisateur dans une variable// 
-const choixFormulaire = idForm.ariaValueMax;
-console.log(choixFormulaire);
+let colorUse = choixColor.ariaValueMax; 
+let quantityUse = choixQuantity.ariaValueMax; 
 
 //Récupération des valeurs de la page produit//
 let optionsProduit = {
-  nomProduit: idProduitChoisi.nomProduit,
-  id_ProduitChoisi: idProduitChoisi._id, 
-  option_produit: choix,
-  couleur:bl, 
-  quantity: 1,
+  nomProduit: produitName,
+  idProduitChoisi: idProduit,
+  quantityProduit: quantityUse,
+  colorProduit: colorUse 
 }; 
 console.log(optionsProduit);
-//peut-être prendre les valeurs codées en HTML ? //
+
 
 //Déclaration de la variable "produitLocalStorage"//
 let produitLocalStorage = JSON.parse(localStorage.getItem(""));
@@ -30,6 +32,7 @@ console.log(produitLocalStorage);
 
 //si des produits sont déjà enregistrés dans le local storage//
 if (produitLocalStorage) {
+
   
 } else {
   produitLocalStorage = [];
@@ -39,4 +42,5 @@ if (produitLocalStorage) {
 }
 
 }); 
+
 
