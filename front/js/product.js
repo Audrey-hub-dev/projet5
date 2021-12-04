@@ -24,6 +24,8 @@ let optionsProduit = {
   colorProduit: colorUse 
 }; 
 console.log(optionsProduit);
+console.log(JSON.stringify(optionsProduit));
+console.log(optionsProduit.nomProduit);
 
 
 //Déclaration de la variable "produitLocalStorage"//
