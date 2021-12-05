@@ -1,5 +1,11 @@
 // Etape 3 : Récupération des données depuis l'API
-fetch('http://localhost:3000/api/products')
+
+
+
+
+
+
+fetch('http://localhost:3000/api/products/')
   .then(function(res) {
     if (res.ok) {
       return res.json();
@@ -12,13 +18,8 @@ fetch('http://localhost:3000/api/products')
     // Une erreur est survenue
   });
 
+
 // Etape 3 : Inspection de la réponse envoyée par l'API
-
-
-const numberOfItems = 8;
-for (let i= 0; i <numberOfItems; i++) {
-
-}
 
 
 // Je sélectionne et stocke la balise Section items
@@ -26,11 +27,11 @@ const itemsContainer = document.querySelector('.items');
 console.log(itemsContainer);
 
 
+/*Je crée un tableau d'objets*/
 
-/*Je crée un tableau d'objets
-J'utilise la boucle for..of pour parcourir le tableau et recevoir 
-chaque élément dans l'ordre */
-const items = [
+
+
+const products = [
     {
     colors:[ "Blue", "white", "black"],
     _id: "107fb5b75607497b96722bda5b504926",
@@ -110,24 +111,14 @@ const items = [
         description:"Mauris molestie laoreet finibus. Aenean scelerisque convallis lacus at dapibus. Morbi imperdiet enim metus rhoncus.",
         altTxt: "Photo d'un canapé rose, trois places"
     }
-    ]
-   
-    for (let item of items) {
-       console.log('Les couleurs du canapé ' + item.colors + ' et identifiant  ' + item._id + ' et nom ' + item.name + 
-       ' et prix ' + item.price + ' et image ' + item.imageUrl + ' et description ' + item.description + ' et texte alternatif ' + item.altTxt);
-    }
+    ]; 
 
 //Utilisation du DOM pour récupérer les éléments de la page index.html
 
-/*j'affiche chaque élément du tableau */
-items.forEach(product => {
-    console.log(product);
-}); 
-
 /*je crée un lien href*/
 let link = document.createElement('a');
-let href = document.getElementById('items');
-href.appendChild(link);
+let linkhref = document.getElementById('items');
+linkhref.appendChild(link);
 
 
 /*je crée une section article dans le lien*/
@@ -142,6 +133,7 @@ let img = document.createElement("img");
 article.appendChild(img); 
 img.setAttribute('alt', '', '');
 
+
 /*je crée un titre h3 avec une class dans l'article*/
 let h3 = document.createElement("h3");
 article.appendChild(h3); 
@@ -153,21 +145,55 @@ article.appendChild(p);
 p.setAttribute('class', 'productDescription');
 
 
+/*j'utilise Fetch pour obtenir les produits de l'API*/
+/*pour ce faire, j'utilise la méthode async/await pour déclarer une fonction, 
+cette fonction attendra la résolution de la demande pour poursuivre*/
+
+
+let productData = [8];
+
+/*logique pour aller chercher les données dans l'API*/
+const fetchProduct = async () => {
+    await fetch('http://localhost:3000/api/products/')
+        .then((res) => res.json())
+        .then((data) => (productData = data)); 
+      
+    console.log(productData);
+};       
+fetchProduct();
+
+/*fonction pour afficher les données ... */
+
+const productDisplay = async () => {
+    await fetchProduct();
+    items.innerHTML = productData
+        .map((product) =>
+
+    `<a href="./product.html?_id=${product._id}">
+    <article>
+    <img src=${product.imageUrl} alt=${product.altTxt}>
+    <h3>${product.name}</h3>
+    <p>${product.description}</p>
+    </article>
+    </a>`
+            
+    )
+    .join("")
+    ;
+  
+};
+productDisplay(); 
 
 
 
 
 
 
+    
+    
 
-
-
-
-
-
-
-
-
+    
+    
 
 
 
