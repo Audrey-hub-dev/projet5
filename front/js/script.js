@@ -1,36 +1,10 @@
-// Etape 3 : Récupération des données depuis l'API
-
-
-
-
-
-
-fetch('http://localhost:3000/api/products/')
-  .then(function(res) {
-    if (res.ok) {
-      return res.json();
-    }
-  })
-  .then(function(value) {
-    console.log(value);
-  })
-  .catch(function(err) {
-    // Une erreur est survenue
-  });
-
-
-// Etape 3 : Inspection de la réponse envoyée par l'API
-
+// Etape 3 du projet : Affichage des produits dans la page d'accueil (index.html)
 
 // Je sélectionne et stocke la balise Section items
 const itemsContainer = document.querySelector('.items');
 console.log(itemsContainer);
 
-
 /*Je crée un tableau d'objets*/
-
-
-
 const products = [
     {
     colors:[ "Blue", "white", "black"],
@@ -146,29 +120,29 @@ p.setAttribute('class', 'productDescription');
 
 
 /*j'utilise Fetch pour obtenir les produits de l'API*/
-/*pour ce faire, j'utilise la méthode async/await pour déclarer une fonction, 
-cette fonction attendra la résolution de la demande pour poursuivre*/
+//pour ce faire, j'utilise la méthode async/await pour déclarer une fonction, 
+//cette fonction attendra la résolution de la demande pour poursuivre.
+//le console.log s'affiche après exécution de ce qui précède.
 
 
-let productData = [8];
-
-/*logique pour aller chercher les données dans l'API*/
-const fetchProduct = async () => {
+/*fonction pour aller chercher les données dans l'API*/
+let productData = []; // les données sont contenues dans une variable
+const fetchProduct = async () => {//fonction pour fetch
     await fetch('http://localhost:3000/api/products/')
         .then((res) => res.json())
         .then((data) => (productData = data)); 
       
-    console.log(productData);
+    console.log(productData);//vérification que l'on a bien les données dans la console
 };       
-fetchProduct();
+fetchProduct();//je passe les données recueillies par fetch à la variable productData
 
-/*fonction pour afficher les données ... */
+/*fonction pour afficher les données dans le navigateur web*/
 
-const productDisplay = async () => {
-    await fetchProduct();
-    items.innerHTML = productData
-        .map((product) =>
-
+const productDisplay = async () => { //fonction d'affichage
+    await fetchProduct(); // fetchProduct est appelé pour la fonction productDisplay
+    items.innerHTML = productData //endroit où sera appelé la map
+        .map((product) => //chaque tour de boucle est un product
+    //affichage du texte HTML 
     `<a href="./product.html?_id=${product._id}">
     <article>
     <img src=${product.imageUrl} alt=${product.altTxt}>
@@ -178,12 +152,69 @@ const productDisplay = async () => {
     </a>`
             
     )
-    .join("")
+    .join("")//suppression des virgules par défaut
     ;
   
 };
-productDisplay(); 
+productDisplay();
 
+
+/*2ème méthode pour récupérer et afficher les données dans le navigateur web
+
+1. Je connecte mon site à un site distant grâce à fetch en utilisant async/await
+async function pending() {
+    const responseJSON = await fetch(url);
+    const responseJS = wait responseJSON.json();
+    console.log(responseJS, 'objet Javascript'); //conversion de la réponse au format Javascript//
+
+}
+
+2. J'affiche le contenu dans la page 
+//les articles n'existent pas encore mais la DIV utilisée doit être sélectionnée et stockée//
+const item = document.querySelector('items');
+console.log(item);
+//j'accède aux valeurs d'un objet//
+const valeur = objet.propriete;
+console.log(valeur)
+//je crée un tableau d'objets visible dans la console//
+const item =[
+    {
+
+    }
+];
+console.log(iem);
+//j'affiche chqaue élément du tableau dans le navigateur web//
+//je peux afficher chaque élément du tableau//
+item.forEach(product => {
+    console.log(product);
+});
+//j'utilise les template strings. Cette méthode permet d'associer des éléments HTML et des variables.//
+//On entoure la variable du signe $ et d'accolades {} et on n'oublie pas les back-ticks (touche juste avant entrée).//
+const articles = ` (back-tick)
+<h3> ${product.name}</h3>
+console.log (articles); 
+}); 
+//j'utilise la technique de la concaténation (permet de cumuler le contenu et non le remplacer avec les 
+deux signes +=//
+//j'ajoute la variable articles dans la page web et dans la DIV souhaitée//
+item.innerHTML += articles; 
+
+3. J'ajoute dans une même fonction fetch (recueil de données) et écriture dans la page web avec 
+ou sans technique de concaténation
+async function pending() {
+    const responseJSON = await fetch(url);
+    const responseJS = wait responseJSON.json();
+    console.log(responseJS, 'objet Javascript'); //conversion de la réponse au format Javascript//
+
+    item.innerHTML = `//insertions des variables en utilisant les template strings sans concaténation//
+        //exemple// <h3> ${responseJS.id} - ${responseJS.title}</h3>
+}
+catch(error) {
+    console.log(error, "erreur");
+
+}
+} //fermeture de la fonction depending//
+*/
 
 
 
