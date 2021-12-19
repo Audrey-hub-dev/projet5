@@ -1,48 +1,50 @@
+// étape 4 : faire le lien entre un produit de la page d'accueil et la page produit
+// étape 5 : récupérer l'id du produit à afficher 
 
+var str = window.location.href;
+var url = new URL(str);
+var productId = url.searchParams.get("_id");
+console.log(productId);
+let product = "";
 
+// étape 6 : insérer un produit et ses détails dans la page produit 
 
-// étape 7 : ajouter des produits dans le panier 
+// Récupération des articles de l'API avec fetch 
+getProduct();
+function getProduct() {
+    fetch(`http://localhost:3000/api/products/` + productId)
+    .then((response) => response.json()) 
+    .then((data) => {
+        const product = data;
+        productDisplay(data); 
+    });
 
-//Panier
-const choixColor = document.querySelector("colors");
-const choixQuantity = document.querySelector("quantity"); 
-const ajouterAuPanier = document.querySelector("addToCart"); 
+// création de la fiche produit 
+    function productDisplay(product) {
 
-//Ecouter le bouton addToCart 
-ajouterAuPanier.addEventListener("click", (event) => {
-  event.preventDefault(); 
+      //Insertion et création des éléments des produits 
+    
+        let productImg = document.createElement("img");
+        document.querySelector(".item__img").appendChild(productImg);
+        productImg.src = product.imageUrl;
+        productImg.alt = product.altTxt;
 
-//Mettre le choix de l'utilisateur dans une variable// 
-let colorUse = choixColor.ariaValueMax; 
-let quantityUse = choixQuantity.ariaValueMax; 
+        let productName = document.getElementById('title');
+        productName.innerHTML = product.name;
 
-//Récupération des valeurs de la page produit//
-let optionsProduit = {
-  nomProduit: produitName,
-  idProduitChoisi: idProduit,
-  quantityProduit: quantityUse,
-  colorProduit: colorUse 
-}; 
-console.log(optionsProduit);
-console.log(JSON.stringify(optionsProduit));
-console.log(optionsProduit.nomProduit);
+        let productPrice = document.getElementById('price');
+        productPrice.innerHTML = product.price;
 
+        let productDescription = document.getElementById('description');
+        productDescription.innerHTML = product.description;
 
-//Déclaration de la variable "produitLocalStorage"//
-let produitLocalStorage = JSON.parse(localStorage.getItem(""));
-console.log(produitLocalStorage); 
-
-//si des produits sont déjà enregistrés dans le local storage//
-if (produitLocalStorage) {
-
-  
-} else {
-  produitLocalStorage = [];
-
-  console.log(produitLocalStorage); 
-  produitLocalStorage.push(optionsProduit); 
-}
-
-}); 
-
-
+        for (let colors of product.colors) {
+        console.log(colors);
+        let productColors = document.createElement("option");
+        document.querySelector("#colors").appendChild(productColors);
+        productColors.value = colors;
+        productColors.innerHTML = colors;
+        
+      }};
+        productDisplay();
+      }; 
