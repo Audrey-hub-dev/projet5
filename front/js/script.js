@@ -127,7 +127,8 @@ p.setAttribute('class', 'productDescription');
 
 /*fonction pour aller chercher les données dans l'API*/
 let productData = []; // les données sont contenues dans une variable
-const fetchProduct = async () => {//fonction pour fetch
+
+async function fetchProduct() {//fonction pour fetch
     await fetch('http://localhost:3000/api/products/')
         .then((res) => res.json())
         .then((data) => (productData = data)); 
@@ -138,8 +139,9 @@ fetchProduct();//je passe les données recueillies par fetch à la variable prod
 
 /*fonction pour afficher les données dans le navigateur web*/
 
-const productDisplay = async () => { //fonction d'affichage
-    await fetchProduct(); // fetchProduct est appelé pour la fonction productDisplay
+async function productDisplay () { //fonction d'affichage
+    await fetchProduct();
+   // fetchProduct est appelé pour la fonction productDisplay
     items.innerHTML = productData //endroit où sera appelé la map
         .map((product) => //chaque tour de boucle est un product
     //affichage du texte HTML 
