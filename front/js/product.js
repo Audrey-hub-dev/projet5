@@ -50,10 +50,10 @@ async function productDisplay() {
   
   let select = document.getElementById("colors")
   console.log(select);
-  
+
   console.log(productData.colors);
   productData.colors.forEach((colors) => { // on utilise une boucle pour parcourir le tableau
-    console.log(colors); 
+    
     let tagOption = document.createElement("option");
 
     tagOption.innerHTML = `${colors}`;
@@ -63,128 +63,76 @@ async function productDisplay() {
     select.appendChild(tagOption);
 
   }
-  )
+  );
+  addCart(productData) //on appelle la fonction dans productDisplay car on doit récupérer un paramètre dans productDisplay
+  /*paramètre product Data car on récupère ce paramètre une fois qu'il est passé dans ce productDisplay, on ne veut pas récupérer productData vide*/
 };
 
 productDisplay()
 
-
 // création de la balise form pour actionner le bouton
 let form = document.querySelector(".item__content__addButton");
 form.setAttribute('id', 'anchorCart'); 
-document.getElementById("anchorCart").innerHTML = `<form action="./cart.html"><button id="addToCart" onclick="setData()">Ajouter au panier</button></form>`
+document.getElementById("anchorCart").innerHTML = `<form action="./cart.html"><button id="addToCart">Ajouter au panier</button></form>`
 
 
 
-// étape 7 : Ajouter des produits dans le panier 
+function addCart () {
+  let btn = document.getElementById("addToCart");
+  btn.addEventListener("click", (event) => {
+    event.preventDefault();
 
-// Utilisation du localStorage
+    let productArray = JSON.parse(localStorage.getItem("product"))
+    let quantity = document.getElementById("quantity");
+    let select = document.getElementById("colors");
+    console.log(quantity.value);
+    console.log(select.value);
+    console.log(productArray);
 
-
-
-
-
-  let cart = {
-  
-  idProduct: "_id",
-  quantityProduct: "quantity",
-  colorProduct: "colors"
-  }
-;
-console.log(cart);
-console.log(JSON.stringify(cart));
-
-
-
-
-
-
-
-function saveCart(cart/*paramètre(quel panier?)*/) {
-  localStorage.setItem("cart"/*key*/, JSON.stringify(cart/*value*/)); /*stringify prend un objet 
-  et le transforme en chaine de caractères */
-}
-saveCart()
-
-
-
-
-
-function getCart(){
-  
-  
-  cart = localStorage.getItem("cart"/*key*/);
-  
-  
-  if(cart == null){
-    return []; //retourne un tableau vide
-
-  }else{
-    return (cart); /*parse qui prend une chaine de caractères et
-    le retrasnforme en objet*/
+    const addColorQuantity = Object.assign({}, productData, {
+      color : `${select.value}`,
+      quantity : `${quantity.value}`,
+     
+    });
+    console.log(addColorQuantity);
     
-    
-  }
-  
 
-}
-getCart()
+    // si le produit est déjà enregistré 
+    if(productArray) {
+      productArray.push(addColorQuantity);
+      localStorage.setItem("product", JSON.stringify(productArray));
+      console.log(productArray);
 
-function addCart(product) {
-  let cart = getCart() //je récupère le panier dans la variable 
-  let foundProduct = find(p => p.id == product.id);
-  if(foundProduct != undefined){ /*si produit différent de undefined*/
-    foundProduct.quantity++; /*on ajoute 1 à la quantité*/
-
-  }else{
-    product.quantity = 1; /*je crée une quantité*/
-    cart.push(product); //le panier est un tableau que l'on pousse et on ajoute le produit dans le tableau
-
-
-  }
-  
-  saveCart(cart);//on enregistre le nouveau panier 
-
-}
-addCart()
-
-function addToCart(product){
-  /*let addToCartStorage = localStorage.getItem('colors',colors, 'quantity', quantity);
-  console.log(addToCartStorage);*/
-  const button = document.querySelector("#addToCart");
-    button.addEventListener("click", (event) => {
-
-      /*e.preventDefault();
-      let colors = document.getElementById('colors').value;
-      let quantity = document.getElementById('quantity').value;
-      localStorage.setItem('colors', colors)
-      localStorage.setItem('quantity', quantity)
-      */
-    
-      let addToCartStorage = localStorage.getItem('colors', colors, 'quantity', quantity);
-      if(alreadyInCart) {
-        //mettre à jour la quantité
-        updateQuantity(product);
+     
       }
-      else {
-        //ajouter au panier
-        addNewProduct(product);
+    // si le produit n'est pas encore ajouté  
+      else // si la condition vérifie (==), est égal à null// 
+
+       {
+        //le productArray est un tableau vide
+        productArray = [];
+        //on pousse productData dans le productDisplay
+        productArray.push(addColorQuantity);
+       
+        localStorage.setItem("product", JSON.stringify(productArray)); /*on transforme en stringify en chaine 
+        de caractère pour que le produit apparaisse dans le localStorage*/
+        console.log(productArray);
+
+
+
+
+
       }
-      
-        });
-  
-}
 
-addToCart() 
 
-function setData() {
-  let productId = url.searchParams.get("_id").value;
-  let colors = document.getElementById('colors').value;
-  let quantity = document.getElementById('quantity').value;
-  localStorage.setItem('_id', productId)
-  localStorage.setItem('colors', colors)//'key', value
-  localStorage.setItem('quantity', quantity)
+  });
+
 };
-setData()
 
+
+
+    
+
+ 
   
+
