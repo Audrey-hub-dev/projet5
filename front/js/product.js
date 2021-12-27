@@ -64,7 +64,7 @@ async function productDisplay() {
 
   }
   );
-  addCart(productData) //on appelle la fonction dans productDisplay car on doit récupérer un paramètre dans productDisplay
+  addToCart(productData) //on appelle la fonction dans productDisplay car on doit récupérer un paramètre dans productDisplay
   /*paramètre product Data car on récupère ce paramètre une fois qu'il est passé dans ce productDisplay, on ne veut pas récupérer productData vide*/
   
 };
@@ -72,12 +72,19 @@ async function productDisplay() {
 productDisplay()
 
 
-/*function addCart () {
-  let btn = document.getElementById("addToCart");
-  btn.addEventListener("click", (event) => {
-    event.preventDefault();*/
+// création de la balise form pour actionner le bouton
+let form = document.querySelector(".item__content__addButton");
+form.setAttribute('id', 'anchorCart'); 
+document.getElementById("anchorCart").innerHTML = `<form action="./cart.html"><button id="addToCart">Ajouter au panier</button></form>`
 
-    /*let productArray = JSON.parse(localStorage.getItem("product"))
+  function addToCart () {
+
+    let btn = document.getElementById("addToCart");
+   
+        btn.addEventListener("click", (event) => {
+         
+  
+    let productArray = JSON.parse(localStorage.getItem("product"))
     let quantity = document.getElementById("quantity");
     let select = document.getElementById("colors");
     console.log(quantity.value);
@@ -111,72 +118,14 @@ productDisplay()
        
         localStorage.setItem("product", JSON.stringify(productArray)); /*on transforme en stringify en chaine 
         de caractère pour que le produit apparaisse dans le localStorage*/
-        /*console.log(productArray);
-
-      }; */
-  
-
-
-  // création de la balise form pour actionner le bouton
-  let form = document.querySelector(".item__content__addButton");
-  form.setAttribute('id', 'anchorCart'); 
-  document.getElementById("anchorCart").innerHTML = `<form action="./cart.html"><button id="addToCart" class="${productId}"">Ajouter au panier</button></form>`
-  
- 
-
-  function addCart () {
-    
-      let productArray = JSON.parse(localStorage.getItem("product"))
-      let quantity = document.getElementById("quantity");
-      let select = document.getElementById("colors");
-      console.log(quantity.value);
-      console.log(select.value);
-      console.log(productArray);
-  
-      const addColorQuantity = Object.assign({}, productData, {
-        color : `${select.value}`,
-        quantity : `${quantity.value}`,
-       
-      });
-      console.log(addColorQuantity);
-      
-  
-      // si le produit est déjà enregistré 
-      if(productArray) {
-        productArray.push(addColorQuantity);
-        localStorage.setItem("product", JSON.stringify(productArray));
         console.log(productArray);
-  
-       
-        }
-      // si le produit n'est pas encore ajouté  
-        else // si la condition vérifie (==), est égal à null// 
-  
-         {
-          //le productArray est un tableau vide
-          productArray = [];
-          //on pousse productData dans le productDisplay
-          productArray.push(addColorQuantity);
-         
-          localStorage.setItem("product", JSON.stringify(productArray)); /*on transforme en stringify en chaine 
-          de caractère pour que le produit apparaisse dans le localStorage*/
-          console.log(productArray);
-  
-  
-  
-  
-  
-        }
-       
-      
-      }; 
 
-        function addToCart() {
-          let btn = document.querySelector("#addTocart");
-          btn.addEventListener("click", (event) => {
-           
-
-        })
       }; 
-      addToCart(productData);
-      localStorage = JSON.parse(localStorage.getItem("product"));
+  
+    })
+  };
+
+     
+
+        
+     
