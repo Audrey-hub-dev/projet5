@@ -57,6 +57,11 @@ let productPrice = document.createElement("p");
 itemContentTitlePrice.appendChild(productPrice);
 productPrice.innerHTML = productArray[product].usePrice + "€";
 
+//je crée l'élément p qui sera la couleur dans la div titlePrice
+let productColor = document.createElement("p");
+itemContentTitlePrice.appendChild(productColor);
+productColor.innerHTML = productArray[product].useColor; 
+
 //je crée l'élément div qui est le troisième div nommé settings
 let itemContentSettings = document.createElement("div");
 itemContent.appendChild(itemContentSettings);
