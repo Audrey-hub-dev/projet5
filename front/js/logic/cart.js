@@ -1,52 +1,32 @@
-/**
- * ici nous allons faire des fonctions qui gèrent le panier.
- * on doit avoir un panier.
- * -> soit il existe, soit on le crée
- */
+// modification d'une quantité dans le panier
 
-function getCart() {
-    let cart = localStorage.getItem('cart');
-    return cart === null ? createEmptyCart() : cart;
-}
+function changeQ() {
+    //je sélectionne l'élément quantité que l'on peut modifier
+    let numberDisplay = document.querySelectorAll(".itemQuantity");
+    for (let l = 0; l < numberDisplay.length; l++) {//création d'une recherche des quantités dans le panier avec une boucle 
+        numberDisplay[l].addEventListener('change', () => {
+            //je crée la variable pour parcourir les quantités dans le tableau 
+            let changeDisplay = productArray[l].useQuantity;
+            //je crée la variable pour afficher la valeur numérique 
+            let numberDisplayResult = numberDisplay[l].valueAsNumber;
+            //je crée une variable qui montre les résultats de la recherche dans la tableau
+            /* dans le tableau, recherche d'un produit avec sa valeur numérique qui doit être strictement inégale
+            à la quantité déjà inscrite 
+            */
+            const resultFind = productArray.find((product) => product.numberDisplayResult !== changeDisplay);
+           
+             // la quantité modifiée du produit est affichée dans l'emplacement prévu
+            resultFind.useQuantity = numberDisplayResult;
+    
+            productArray[l].useQuantity = resultFind.useQuantity;
+            localStorage.setItem("cart", JSON.stringify(productArray));
 
-function createEmptyCart() {
-    return {
-        items : [],
-        totalQty : 0,
-        totalPrice : 0
-    };
-}
-
-function saveCart(cart) {
-    localStorage.setItem('cart' , JSON.stringify(cart));
-}
-
-function addProductToCart(product , cart) {
-    // il faut vérifier si le produit est déjà dans le panier.
-    let exists = productExists(product , cart);
-
-    // s'il existe, mettre à jour la quantité
-    if(exists) 
-        updateQuantity(product, cart);
-    else
-        createProduct(product, cart);
-}
-
-function productExists(product, cart) {
-    let exists = false;
-
-    for(let item in cart.items)
-        if(item.productId === product.productId && item.color == product.color)
-        exists = true;
-
-    return exists;
-}
-
-function orchestra(product) {
-    cart = getCart();
+        })
+    }
+}      
+changeQ();
 
 
+//suppression d'une quantité dans le panier 
 
-    updateCartProperties();
-    saveCart();
-}
+// on le sélectionne de l'identifiant du produit et/ ou de la quantité à modifier
