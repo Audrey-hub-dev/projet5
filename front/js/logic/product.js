@@ -3,7 +3,7 @@ function addToProductArray () {
     let btn = document.getElementById("addToCart");
       btn.addEventListener("click", (event) => {
   
-    let productArray = JSON.parse(localStorage.getItem("product")); 
+    let productArray = JSON.parse(localStorage.getItem("cart")); 
     let quantity = document.getElementById("quantity");
     let select = document.getElementById("colors");
     let optionQuantity = quantity.value;
@@ -34,7 +34,7 @@ function addToProductArray () {
     //dans le localStorage
     function addProductLocalStorage () {
     productArray.push(newProduct);//on pousse le produit dans le panier
-    localStorage.setItem("product", JSON.stringify(productArray));/*on convertit le javascript en chaine 
+    localStorage.setItem("cart", JSON.stringify(productArray));/*on convertit le javascript en chaine 
     de caractère JSON pour que le produit apparaisse dans le localStorage*/
     }
   
@@ -50,7 +50,7 @@ function addToProductArray () {
     alors find retourne l'élément en question*/
       if(resultFind) { // si il trouve un produit même couleur même id 
         resultFind.useQuantity++;// il ajoute une quantité à celle déjà présente 
-        localStorage.setItem("product", JSON.stringify(productArray));
+        localStorage.setItem("cart", JSON.stringify(productArray));
   
       }else if (resultFind === undefined) { //si il n'y a pas de produit même couleur avec même id dans le panier 
   
