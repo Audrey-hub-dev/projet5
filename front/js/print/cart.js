@@ -2,7 +2,7 @@
 
 //depuis la page panier, récupérer le panier (l'array) via localStorage
 
-let productArray = JSON.parse(localStorage.getItem("product"))
+let productArray = JSON.parse(localStorage.getItem("cart"))
 console.log(productArray); 
 
 
