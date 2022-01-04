@@ -81,8 +81,13 @@ productQuantity.innerHTML = "Qté : ";
 let inputQuantity = document.createElement("input");
 quantity.appendChild(inputQuantity);
 inputQuantity.value = productArray[product].useQuantity;
+inputQuantity.setAttribute("type", "number");
 inputQuantity.className = "itemQuantity";
 inputQuantity.setAttribute('id', 'itemQ');
+inputQuantity.setAttribute("name", "itemQuantity");
+inputQuantity.setAttribute("min", "1");
+inputQuantity.setAttribute("max", "100");
+
 
 //je crée une deuxième sous-div dans la div settings
 let itemContentSettingsDelete = document.createElement("div");
@@ -123,27 +128,22 @@ let productTotalQuantity = document.getElementById('totalQuantity');
 
 
 //création du calcul des prix 
-// je crée une variable pour y mettre les prix 
-let totalPriceCalc = [];
-
-//création d'une recherche des prix dans le panier avec une boucle 
-for (let j = 0; j < productArray.length; j++) {
-//création variable du prix 
-let usePriceCart = productArray[j].usePrice;
-
-//je crée un tableau avant de faire un calcul, je mets les prix dans un tableau en passant par la variable
-totalPriceCalc.push(usePriceCart) 
-console.log(totalPriceCalc)
-}
-
-//j'additionne les prix avec la méthode .reduce()
-const reducer = (accumulator, currentValue) => accumulator + currentValue 
-const totalP = totalPriceCalc.reduce(reducer,0);
-
+//je sélectionne l'élément de quantité de chaque produit
+let itemQ = document.getElementsByClassName('itemQuantity');
+//je crée la variable quantityPrice pour récupérer toutes les quantités 
+let quantityPrice = itemQ.length;
+//je définis le prix total par un nombre
+totalP = 0;
+//je récupère le prix total dans les quantités totales lors de la modification de quantité dans le panier 
+for (let m = 0; m < quantityPrice; m++) {////création d'une recherche des quantités dans le panier avec une boucle 
+    totalP += (itemQ[m].valueAsNumber * productArray[m].usePrice);
+    // le prix total est égal à la valeur de quantité de chaque produit multiplié par le prix de celui-ci
+}   
 // j'affiche l'élément du total price
 let productTotalPrice = document.getElementById('totalPrice');
     productTotalPrice.innerHTML = totalP;
     console.log(totalP);
+
 
 
 
