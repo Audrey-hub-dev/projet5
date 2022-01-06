@@ -2,8 +2,8 @@
 
 //depuis la page panier, récupérer le panier (l'array) via localStorage
 
-let productArray = JSON.parse(localStorage.getItem("cart"))
-console.log(productArray); 
+let cart = JSON.parse(localStorage.getItem("cart"))
+console.log(cart); 
 
 
 //créer et insérer des éléments dans la page panier
@@ -13,13 +13,13 @@ const cartItems = document.querySelector("#cart__items");
 console.log(cartItems); 
 
 //si le panier est vide
-if(productArray === null) {
+if(cart === null) {
     
 }else {
 //si le panier n'est pas vide, on affiche les produits dans le localStorage
 //boucle qui indique le nombre d'éléments dans le localStorage
 
-for (let product in productArray){
+for (let product in cart){
 
 //je crée l'élément article
 let article = document.createElement("article");
@@ -35,7 +35,7 @@ div.className = "cart__item__img";
 //je crée l'élément image dans la div 
 let img = document.createElement("img");
 div.appendChild(img);
-img.src = productArray[product].useImg;
+img.src = cart[product].useImg;
 
 //je crée une deuxième div dans l'élément article
 let itemContent = document.createElement("div");
@@ -50,17 +50,17 @@ itemContentTitlePrice.className = "cart__item__content__titlePrice";
 //je crée un titre h2 dans cette sous-div 
 let title = document.createElement("h2");
 itemContentTitlePrice.appendChild(title);
-title.innerHTML = productArray[product].useName; 
+title.innerHTML = cart[product].useName; 
 
 //je crée l'élément p qui sera le prix dans la div titlePrice
 let productPrice = document.createElement("p");
 itemContentTitlePrice.appendChild(productPrice);
-productPrice.innerHTML = productArray[product].usePrice + "€";
+productPrice.innerHTML = cart[product].usePrice + "€";
 
 //je crée l'élément p qui sera la couleur dans la div titlePrice
 let productColor = document.createElement("p");
 itemContentTitlePrice.appendChild(productColor);
-productColor.innerHTML = productArray[product].useColor; 
+productColor.innerHTML = cart[product].useColor; 
 
 //je crée l'élément div qui est le troisième div nommé settings
 let itemContentSettings = document.createElement("div");
@@ -80,7 +80,7 @@ productQuantity.innerHTML = "Qté : ";
 //je crée l'élément input dans la div quantity
 let inputQuantity = document.createElement("input");
 quantity.appendChild(inputQuantity);
-inputQuantity.value = productArray[product].useQuantity;
+inputQuantity.value = cart[product].useQuantity;
 inputQuantity.setAttribute("type", "number");
 inputQuantity.className = "itemQuantity";
 inputQuantity.setAttribute('id', 'itemQ');
@@ -107,9 +107,9 @@ productDelete.innerHTML = "supprimer";
 // je crée une variable pour y mettre les quantités
 let totalQuantityCalc = [];
 //création d'une recherche des quantités dans le panier avec une boucle 
-for (let k = 0; k < productArray.length; k++) {
+for (let k = 0; k < cart.length; k++) {
 //création variable des quantités	
-let useQuantityCart = productArray[k].useQuantity;
+let useQuantityCart = cart[k].useQuantity;
 
 //je crée un tableau avant de faire un calcul, je mets les quantités dans un tableau en passant par la variable
 totalQuantityCalc.push(useQuantityCart)
@@ -135,34 +135,14 @@ let quantityPrice = itemQ.length;
 //je définis le prix total par un nombre
 totalP = 0;
 //je récupère le prix total dans les quantités totales lors de la modification de quantité dans le panier 
-for (let m = 0; m < quantityPrice; m++) {////création d'une recherche des quantités dans le panier avec une boucle 
-    totalP += (itemQ[m].valueAsNumber * productArray[m].usePrice);
+for (let m = 0; m < quantityPrice; m++) {//création d'une recherche des quantités dans le panier avec une boucle 
+    totalP += (itemQ[m].valueAsNumber * cart[m].usePrice);
     // le prix total est égal à la valeur de quantité de chaque produit multiplié par le prix de celui-ci
 }   
 // j'affiche l'élément du total price
 let productTotalPrice = document.getElementById('totalPrice');
     productTotalPrice.innerHTML = totalP;
     console.log(totalP);
-
-
-
-
-
-
-
-
-
-   
-   
-
-
-        
-    
-
-
-
-
-
 
 
 
