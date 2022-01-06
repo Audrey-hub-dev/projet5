@@ -48,6 +48,7 @@ class form{
     this.address = document.querySelector("#address").value;
     this.city = document.querySelector("#city").value;
     this.email = document.querySelector("#email").value
+    
 
 }}
 
@@ -56,8 +57,18 @@ const formValues = new form();
 console.log(formValues)
 
 
-//gestion des expressions régulières et de l'envoie au serveur 
+//gestion des expressions régulières et de la sauvegarde du localStorage
 
+//expression de fonction pour le prénom, le nom et la ville car même expression régulière
+let regExFirstLastCity = (value) => {
+    return /^[A-Za-z'zéèêëàâîïôöûüçÀÂÉÈÔÙÛÇ-]{3,30}$/.test(value)
+}
+let regExAddress = (value) => {
+    return /^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$/.test(value)
+}
+let regExEmail = (value) => {
+    return /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/.test(value)
+}
 
 //contrôle du prénom
 function controlFirstName() {
@@ -65,112 +76,79 @@ function controlFirstName() {
     let firstErrorMsg = document.getElementById("firstNameErrorMsg");
 
     //contrôle des expressions régulières
-    if (/^[A-Za-z]{3,30}$/.test(firstNameRegex)) {// utilisation des expressions régulières
+    if (regExFirstLastCity(firstNameRegex)) {// utilisation des expressions régulières
         //uniquement les lettres de a à z, min 2 caractères et max 25
         firstErrorMsg.innerHTML = "correct"
         console.log("ok")
+        return true
+        
 
     }else{
         firstErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(firstErrorMsg)
+        return false
+       
     }
-
-    //validation pour l'envoie au serveur 
-    if ((/^[A-Za-z]{3,30}$/.test(firstNameRegex))) {
-        //Mettre les valeurs (l'objet formValues) dans le localStorage
-        localStorage.setItem("firstName", JSON.stringify(firstName));
-
-    }else{
-        alert("veuillez renseigner correctement les champs")
-
-    }
-}
-controlFirstName()
+};
 
 //contrôle du nom 
-function controlLastName() {
-    let lastNameRegex = formValues.lastName;
-    let lastErrorMsg = document.getElementById("lastNameErrorMsg");
 
-    // contrôle expression régulière
-    if (/^[A-Za-z]{3,30}$/.test(lastNameRegex)) {// utilisation des expressions régulières
-        //uniquement les lettres de a à z, min 2 caractères et max 25
+function controlLastName() {
+let lastNameRegex = formValues.lastName;
+let lastErrorMsg = document.getElementById("lastNameErrorMsg");
+
+// contrôle expression régulière
+    if (regExFirstLastCity(lastNameRegex)) {// utilisation des expressions régulières
+    //uniquement les lettres de a à z, min 2 caractères et max 25
         lastErrorMsg.innerHTML = "correct"
         console.log("ok")
+        return true
 
     }else{
         lastErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(lastErrorMsg)
+        return false
     }
+};
 
-    //validation pour l'envoie au serveur 
-    if ((/^[A-Za-z]{3,30}$/.test(lastNameRegex))) {
-        //Mettre les valeurs (l'objet formValues) dans le localStorage
-        localStorage.setItem("lastName", JSON.stringify(lastName));
-
-    }else{
-        alert("veuillez renseigner correctement les champs")
-
-    }
-}
-controlLastName()
-
-
-//contrôle de l'adresse
+//contrôle de l'adresse 
 function controlAddress() {
     let addressRegex = formValues.address;
     let addressErrorMsg = document.getElementById("addressErrorMsg");
 
     //contrôle expression régulière
-    if (/^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$/.test(addressRegex)) {/*soit donc un ensemble quelconque de chiffre suivit éventuellement d'un espace
+    if (regExAddress(addressRegex)) {/*soit donc un ensemble quelconque de chiffre suivit éventuellement d'un espace
         suivit d'un ensemble quelconque de lettres espaces virgules ou points suivit éventuellement d'un espace suivit d'une suite de 5 chiffres suivit éventuellement d'un espace suivit d'une ensemble quelconque de lettres
         */
         addressErrorMsg.innerHTML = "correct"
         console.log("ok")
+        return true
 
     }else{
         addressErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(addressErrorMsg)
+        return false
     }
-
-    //validation pour l'envoie au serveur 
-    if(/^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$/.test(addressRegex))  {
-        //Mettre les valeurs (l'objet formValues) dans le localStorage
-        localStorage.setItem("address", JSON.stringify(address));
-
-    }else{
-        alert("veuillez renseigner correctement les champs")
-
-    }
-}
-controlAddress()
-
-
+};
+    
 //contrôle de la ville 
 function controlCity() {
     let cityRegex = formValues.city;
     let cityErrorMsg = document.getElementById("cityErrorMsg");
 
     //contrôle expression régulière
-    if (/^[a-zéèêëàâîïôöûü-]+$/.test(cityRegex)) {
+    if (regExFirstLastCity(cityRegex)) {
         cityErrorMsg.innerHTML = "correct"
         console.log("ok")
+        return true
+        
     }else{
         cityErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(cityErrorMsg)
-    }
-
-    //validation pour l'envoie au serveur 
-    if (/^[a-zéèêëàâîïôöûü-]+$/.test(cityRegex)) {
-        //Mettre les valeurs (l'objet formValues) dans le localStorage
-        localStorage.setItem("city", JSON.stringify(city));
-
-    }else{
-        alert("veuillez renseigner correctement les champs")
+        return false
 
     }
-}
-controlCity()
+};
 
 //contrôle de l'email 
 function controlEmail() {
@@ -178,31 +156,29 @@ function controlEmail() {
     let emailErrorMsg = document.getElementById("emailErrorMsg");
 
     //contrôle expression régulière
-    if (/^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/ .test(emailRegex)) {
+    if (regExEmail(emailRegex)) {
         emailErrorMsg.innerHTML = "correct"
         console.log("ok")
+        return true
     }else{
         emailErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(emailErrorMsg)
+        return false
     }
-
-    //validation pour l'envoie au serveur 
-    if(/^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/ .test(emailRegex))  {
-        //Mettre les valeurs (l'objet formValues) dans le localStorage
-        localStorage.setItem("email", JSON.stringify(email));
-
-    }else{
-        alert("veuillez renseigner correctement les champs")
-
-    }
-}
-controlEmail()
+};
 
 
- //Mettre les valeurs (l'objet formValues) dans le localStorage
- //localStorage.setItem("formValues", JSON.stringify(formValues));
-
-
+//sauvegarde du localStorage pour l'envoie au serveur
+ 
+if (controlFirstName() && controlLastName() && controlAddress() && controlCity() && controlEmail() ) {
+    //Mettre les valeurs (l'objet formValues) dans le localStorage
+    localStorage.setItem("formValues", JSON.stringify(formValues));
+    
+}else{
+    alert("veuillez renseigner correctement les champs")
+    
+};
+    
 //mettre les valeurs du formulaire et les produits dans un objet à envoyer au serveur
 const formProduct = {
     formValues,
@@ -212,7 +188,7 @@ console.log(formProduct)
 
 }); 
 
-//fin écoute du bouton commander 
+//fin écoute du bouton 
 
 
 //sauvegarder les champs du formulaire 
@@ -220,13 +196,17 @@ console.log(formProduct)
 const dataForm = localStorage.getItem("formValues");
 const dataFormArray = JSON.parse(dataForm);
 
-//mettre les values du localStorage dans les champs du formulaire
+//mettre les valeurs du localStorage dans les champs du formulaire
 //document.querySelector("#firstName").setAttribute('value', dataFormArray.firstName)
 
 
-// fonction pour sauvegarder 
+//fonction pour sauvegarder les données du formulaire 
 function saveForm(input) {
+    //condition pour ne pas avoir de problème dans la console si le formulaire est vide
+    if (dataFormArray == null){     
+    }else{
     document.querySelector(`#${input}`).value = dataFormArray[input]; 
+    }
 };
 
 saveForm("firstName");
