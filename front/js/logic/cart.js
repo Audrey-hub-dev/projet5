@@ -39,48 +39,6 @@ const orderBtn = document.querySelector("#order");
 orderBtn.addEventListener("click", (event) => {
     event.preventDefault();
 
-
-
-// création d'une classe pour mettre l'objet dans lequel vont les valeurs du formulaire
-/*class form{
-    constructor(input){
-    //constructor est une méthode pour utiliser et initialiser un objet lorsqu'on utilise le mot clé class
-    this.firstName = document.querySelector("#firstName").value;
-    this.lastName = document.querySelector("#lastName").value;
-    this.address = document.querySelector("#address").value;
-    this.city = document.querySelector("#city").value;
-    this.email = document.querySelector("#email").value;
-    this.input = document.querySelector(`#${input}`).value
-    }
-}
-
-//appel de l'instance de class form pour créer l'objet formValues
-const formValues = new form();
-console.log(formValues)
-console.log("formValues")
-*/
-
-//récupération des valeurs du formulaire pour les mettre dans le localStorage
-/*localStorage.setItem("firstName", document.querySelector("#firstName").value);
-localStorage.setItem("lastName", document.querySelector("#lastName").value);
-localStorage.setItem("address", document.querySelector("#address").value);
-localStorage.setItem("city", document.querySelector("#city").value);
-localStorage.setItem("email", document.querySelector("#email").value);
-
-
-//mettre les valeurs du formulaire dans un objet 
-const form = {
-    firstName: localStorage.getItem("firstName"),
-    lastName: localStorage.getItem("lastName"),
-    address: localStorage.getItem("address"),
-    city: localStorage.getItem("city"),
-    email : localStorage.getItem("email"),
-}
-console.log("form")
-console.log(form)
-*/
-
-
 //récupération des valeurs du formulaire 
 const formValues = {
     firstName: document.querySelector("#firstName").value,
@@ -91,26 +49,6 @@ const formValues = {
 }
 console.log("formValues")
 console.log(formValues)
-
-//mettre l'objet "formValues" dans le localStorage
-//localStorage.setItem("formValues", JSON.stringify(formValues))
-
-
-
-
-//mettre les valeurs du formulaire et les produits sélectionnés dans un objet à envoyer au serveur
-/*const sendForm = {
-    cart, 
-    formValues
-}
-console.log("sendForm")
-console.log(sendForm)
-*/
-
-
-
-
-
 
 
 //gestion des expressions régulières et de la sauvegarde du localStorage
@@ -237,15 +175,6 @@ if (controlFirstName() && controlLastName() && controlAddress() && controlCity()
 
 //fin de la gestion des expressions régulières et de la sauvegarde du localStorage
 
-//mettre les valeurs du formulaire et les produits dans un objet à envoyer au serveur
-/*const sendForm = {
-    cart,
-    formValues,
-};
-console.log("sendForm");
-*/
-
-
 //mettre les valeurs du formulaire et les produits sélectionnés dans un objet à envoyer au serveur
 const order = { 
     cart, //tableau de produits
@@ -273,20 +202,7 @@ fetch('http://localhost:3000/api/products/order' , options )
    
 
 
-
-
-   
-   
-
-
-
-
-
-
 }); //fin écoute du bouton 
-
-
-
 
 
 //sauvegarder les champs du formulaire 
