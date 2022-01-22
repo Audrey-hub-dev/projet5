@@ -3,11 +3,19 @@ function quantityMod() {
     //je sélectionne l'élément quantité que l'on peut modifier
     //je crée la variable pour parcourir les quantités dans le tableau 
     let itemQMod = document.querySelectorAll(".itemQuantity");
+   
 
     for (let l = 0; l < itemQMod.length; l++){
          //création d'une recherche des quantités dans le panier avec une boucle 
         itemQMod[l].addEventListener("change" , (event) => {//écoute des changements de quantités
             event.preventDefault();
+
+            //création d'une variable pour cibler les quantités de 1 à 100
+            //1 étant le minimum et 100 étant le maximum
+            let input = event.target
+            if (isNaN(input.value) || input.value <= 0 || 101 <= input.value) {
+                input.value = 1
+            }
         
            //création d'une variable qui repère les quantités à modifier 
             let listenModif = cartArray[l].useQuantity;
@@ -18,21 +26,23 @@ function quantityMod() {
             let resultFind = cartArray.find(
                 (product) => product.listenQuantity !== listenModif);
             
+                
             if (resultFind != listenModif) {//si le produit a subi une modification de quantité 
                 //écoute du changement de quantité dans qttModif
-                resultFind.itemQMod = listenQuantity;
+                //resultFind.itemQMod = listenQuantity;
                 //création de la nouvelle quantité 
-                cartArray[l].useQuantity = resultFind.itemQMod;
+                cartArray[l].useQuantity = listenQuantity;
                 //sauvegarde de la nouvelle quantité 
                 localStorage.setItem("cart", JSON.stringify(cartArray));
 
-            }else{// si le produit n'a subi aucune modification de quantité 
+            }
+            //else{// si le produit n'a subi aucune modification de quantité 
                 //la quantité reste la même 
-                cartArray[l].useQuantity = resultFind.itemQMod;
+                //cartArray[l].useQuantity = listenQuantity;
                 //sauvegarde de la nouvelle quantité 
-                localStorage.setItem("cart", JSON.stringify(cartArray));
+                //localStorage.setItem("cart", JSON.stringify(cartArray));
 
-            }   
+            //}   
         })
     }
 }
@@ -40,107 +50,31 @@ quantityMod();
 
 
 
-
 //suppression d'une quantité dans le panier 
-
-function deleteProduct() {
+function deleteItem() {
+    //je sélectionne le bouton dans le html
     let buttonClicked = document.querySelectorAll(".deleteItem");
-    
-
-
-    for (let j = 0; j < buttonClicked.length; j++){
+    //je crée une boucle pour parcourir tous les éléments du tableau 
+    for (let j = 0; j < buttonClicked.length; j+=1){
+        //écoute du bouton supprimer
         buttonClicked[j].addEventListener("click" , (event) => {
-            event.preventDefault();
+        event.preventDefault(); 
 
-           
-
-
-
-             
-    let buttonClicked = event.target
-    buttonClicked.parentElement.parentElement.parentElement.parentElement.remove()
-  deleteProduct()
-
-  let index = Array.prototype.indexOf.call(cart__items.children)
-
-            //cartArray = cartArray.filter( el => el.productId !== idDelete || el.useColor !== colorDelete );
-            
-            //localStorage.setItem("cart", JSON.stringify(cartArray));
-
-            //Alerte produit supprimé et refresh
-            alert("Ce produit a bien été supprimé du panier");
-           
-            removeLocalStorage(index)
-            
-            
-        })
-    }
-}
-deleteProduct();
-
-function removeLocalStorage(index) {
-    let cartArray = JSON.parse(localStorage.getItem("cart"))
-    cartArray.splice(index,1);
-    localStorage.setItem('cart', JSON.stringify(cartArray))
-}
-
-
-
-
-
-
-
-
-/*let buttonClicked = document.querySelectorAll(".deleteItem")
-function removeItem(e) {
-
-    buttonClicked[j].addEventListener("click" , (event) => {
-        event.preventDefault();
-    if (e.target.classList.contains("buttonClicked")) {
-        if (confirm ("êtes-vous sûr de vouloir supprimer ce produit ?"))
-        removeLocalStorage ();
-        //let p = e.target.parentElement;
-       // div.removeChild(p);
-
-       buttonClicked.parentElement.parentElement.parentElement.parentElement.remove()
-       removeItem(e)
-    }
-})
-}
-*/
-/*
-function removeLocalStorage() {
-    let cartArray = JSON.parse(localStorage.getItem("cart"))
-    for (let i=0; i< cartArray.length; i++) {
-        cartArray.splice (i,1);
+        //buttonClicked = target //je définis le bouton comme une cible pour pouvoir agir dessus
+        let buttonClicked = event.target
+        //j'utilise la méthode element.closest 
+        buttonClicked.parentElement.parentElement.parentElement.parentElement.remove()
+        //j'utilise la méthode splice pour retire un élément du tableau dans le localStorage
+        cartArray.splice(j, 1) 
+        //création alerte à confirmer pour le produit à supprimer 
+        confirm("Etes-vous sûr de vouloir supprimer ce produit?")
+        //sauvegarde des éléments supprimés dans le localStorage
         localStorage.setItem('cart', JSON.stringify(cartArray))
-    }
-}
+        
+        })
+    }}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+deleteItem();
 
 
 
@@ -152,7 +86,6 @@ function removeLocalStorage() {
 
 
 /*
-
 // étape 10 : passer la commande
 
 //sélection du bouton "commmander"
