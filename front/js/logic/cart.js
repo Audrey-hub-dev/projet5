@@ -4,7 +4,6 @@ function quantityMod() {
     //je crée la variable pour parcourir les quantités dans le tableau 
     let itemQMod = document.querySelectorAll(".itemQuantity");
    
-
     for (let l = 0; l < itemQMod.length; l++){
          //création d'une recherche des quantités dans le panier avec une boucle 
         itemQMod[l].addEventListener("change" , (event) => {//écoute des changements de quantités
@@ -25,24 +24,15 @@ function quantityMod() {
             //création d'une fonction pour repérer si le produit désigné a subi une modification de quantité 
             let resultFind = cartArray.find(
                 (product) => product.listenQuantity !== listenModif);
-            
                 
             if (resultFind != listenModif) {//si le produit a subi une modification de quantité 
-                //écoute du changement de quantité dans qttModif
-                //resultFind.itemQMod = listenQuantity;
                 //création de la nouvelle quantité 
                 cartArray[l].useQuantity = listenQuantity;
                 //sauvegarde de la nouvelle quantité 
                 localStorage.setItem("cart", JSON.stringify(cartArray));
 
             }
-            //else{// si le produit n'a subi aucune modification de quantité 
-                //la quantité reste la même 
-                //cartArray[l].useQuantity = listenQuantity;
-                //sauvegarde de la nouvelle quantité 
-                //localStorage.setItem("cart", JSON.stringify(cartArray));
-
-            //}   
+            
         })
     }
 }
@@ -64,28 +54,25 @@ function deleteItem() {
         let buttonClicked = event.target
         //j'utilise la méthode element.closest 
         buttonClicked.parentElement.parentElement.parentElement.parentElement.remove()
-        //j'utilise la méthode splice pour retire un élément du tableau dans le localStorage
+        //j'utilise la méthode splice pour retirer un élément du tableau dans le localStorage
         cartArray.splice(j, 1) 
         //création alerte à confirmer pour le produit à supprimer 
-        confirm("Etes-vous sûr de vouloir supprimer ce produit?")
-        //sauvegarde des éléments supprimés dans le localStorage
-        localStorage.setItem('cart', JSON.stringify(cartArray))
+        let proceed = confirm("Etes-vous sûr de vouloir supprimer ce produit?")
+        if (proceed) {
+            //sauvegarde du nouveau panier dans le localStorage
+            localStorage.setItem('cart', JSON.stringify(cartArray))
+
+        }else{
+
+        } 
         
         })
-    }}
+    }
+}
 
 deleteItem();
 
 
-
-
-
-
-
-
-
-
-/*
 // étape 10 : passer la commande
 
 //sélection du bouton "commmander"
@@ -94,6 +81,8 @@ const orderBtn = document.querySelector("#order");
 //écoute du bouton order
 orderBtn.addEventListener("click", (event) => {
     event.preventDefault();
+
+//début de la gestion des expressions régulières et de la sauvegarde du localStorage
 
 //récupération des valeurs du formulaire 
 const formValues = {
@@ -107,15 +96,16 @@ console.log("formValues")
 console.log(formValues)
 
 
-//gestion des expressions régulières et de la sauvegarde du localStorage
 
 //expression de fonction pour le prénom, le nom et la ville car même expression régulière
 let regExFirstLastCity = (value) => {
     return /^[A-Za-z'zéèêëàâîïôöûüçÀÂÉÈÔÙÛÇ-]{3,30}$/.test(value)
 }
+//expression de fonction pour l'adresse postale
 let regExAddress = (value) => {
     return /^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$/.test(value)
 }
+//expression de fonction pour l'email
 let regExEmail = (value) => {
     return /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/.test(value)
 }
@@ -124,25 +114,20 @@ let regExEmail = (value) => {
 function controlFirstName() {
     let firstNameRegex = formValues.firstName;
     let firstErrorMsg = document.getElementById("firstNameErrorMsg");
-
     //contrôle des expressions régulières
     if (regExFirstLastCity(firstNameRegex)) {// utilisation des expressions régulières
         //uniquement les lettres de a à z, min 2 caractères et max 25
-        firstErrorMsg.innerHTML = "correct"
-        console.log("ok")
+        firstErrorMsg.innerHTML= ""
         return true
-        
 
     }else{
         firstErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(firstErrorMsg)
-        return false
-       
+        return false  
     }
 };
 
 //contrôle du nom 
-
 function controlLastName() {
 let lastNameRegex = formValues.lastName;
 let lastErrorMsg = document.getElementById("lastNameErrorMsg");
@@ -150,8 +135,7 @@ let lastErrorMsg = document.getElementById("lastNameErrorMsg");
 // contrôle expression régulière
     if (regExFirstLastCity(lastNameRegex)) {// utilisation des expressions régulières
     //uniquement les lettres de a à z, min 2 caractères et max 25
-        lastErrorMsg.innerHTML = "correct"
-        console.log("ok")
+        lastErrorMsg.innerHTML =""
         return true
 
     }else{
@@ -170,10 +154,8 @@ function controlAddress() {
     if (regExAddress(addressRegex)) {/*soit donc un ensemble quelconque de chiffre suivit éventuellement d'un espace
         suivit d'un ensemble quelconque de lettres espaces virgules ou points suivit éventuellement d'un espace suivit d'une suite de 5 chiffres suivit éventuellement d'un espace suivit d'une ensemble quelconque de lettres
         */
-      /*  addressErrorMsg.innerHTML = "correct"
-        console.log("ok")
+       addressErrorMsg.innerHTML = ""
         return true
-
     }else{
         addressErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(addressErrorMsg)
@@ -188,15 +170,13 @@ function controlCity() {
 
     //contrôle expression régulière
     if (regExFirstLastCity(cityRegex)) {
-        cityErrorMsg.innerHTML = "correct"
-        console.log("ok")
+        cityErrorMsg.innerHTML = ""
         return true
         
     }else{
         cityErrorMsg.innerHTML = "Le champ n'est pas correct"
         console.log(cityErrorMsg)
         return false
-
     }
 };
 
@@ -207,8 +187,7 @@ function controlEmail() {
 
     //contrôle expression régulière
     if (regExEmail(emailRegex)) {
-        emailErrorMsg.innerHTML = "correct"
-        console.log("ok")
+        emailErrorMsg.innerHTML = ""
         return true
     }else{
         emailErrorMsg.innerHTML = "Le champ n'est pas correct"
@@ -217,58 +196,54 @@ function controlEmail() {
     }
 };
 
-
 //sauvegarde du localStorage pour l'envoie au serveur
  
-if (controlFirstName() && controlLastName() && controlAddress() && controlCity() && controlEmail() ) {
+if (controlFirstName() && controlLastName() && controlAddress() &&controlCity && controlEmail()) {
     //Mettre les valeurs (l'objet formValues) dans le localStorage
     localStorage.setItem("formValues", JSON.stringify(formValues));
     
 }else{
-    alert("veuillez renseigner correctement les champs")
-    
+    alert("veuillez renseigner correctement les champs")   
 };
+
 
 //fin de la gestion des expressions régulières et de la sauvegarde du localStorage
 
+//début gestion de l'envoi des données du formulaire au serveur 
+
+// constitution d'un objet tableau de produits 
+let arrayProducts = [];
+for (let i = 0; i<cartArray.length;i++) {
+    arrayProducts.push(cartArray[i].id);
+}
 //mettre les valeurs du formulaire et les produits sélectionnés dans un objet à envoyer au serveur
+
 const order = { 
-    cart, //tableau de produits
-    formValues //objet de contact 
+    // constitution d'un objet contact à partir des données du formulaire
+    contact: formValues,
+    products : arrayProducts, 
 };
 
-console.log("order" + order)
-
-
-const options = {
-    method: 'POST',
+const promise = fetch('http://localhost:3000/api/products/order', {
+    method: "POST",
     body: JSON.stringify(order),
     headers: {
-        "Content-Type": "application/json" 
-    },
-};
+        'Accept': 'application/json',
+        "Content-Type" : "application/json",
+    }
+}); 
+console.log(promise)
 
 
-//envoie de l'objet sendForm au serveur
-fetch('http://localhost:3000/api/products/order' , options )
-.then((response) => response.json())
-.then((response) => console.log(response)); 
-
-
-   
-
-
-}); //fin écoute du bouton 
+//}); //fin écoute du bouton 
 
 
 //sauvegarder les champs du formulaire 
-//chercher la key dans le localStorage et la mettre dans une variable
 const dataForm = localStorage.getItem("formValues");
 const dataFormArray = JSON.parse(dataForm);
 
 //mettre les valeurs du localStorage dans les champs du formulaire
 //document.querySelector("#firstName").setAttribute('value', dataFormArray.firstName)
-
 
 //fonction pour sauvegarder les données du formulaire 
 function saveForm(input) {
@@ -288,6 +263,10 @@ saveForm("email")
 
 console.log("dataFormArray"); 
 
+ 
+}) // fin du bouton écoute 
 
-    
-*/
+
+//fin de gestion de l'envoi des données du formulaire au serveur 
+
+
