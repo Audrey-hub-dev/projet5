@@ -27,27 +27,31 @@ function addToCart () {
         quantity : `${optionQuantity}`
         });
         console.log(addColorQuantity);
+
   
-        //récupération des données de l'article à ajouter
+        //récupération des données de l'article à ajouter avec prix
         let newProduct = {
         id: productId,
         useColor: optionColor,
         useQuantity: Number (optionQuantity),
         useImg: productData.imageUrl,
         useName: productData.name,
-        usePrice: productData.price,
+        //usePrice: productData.price
+        //suppression du prix dans le localStorage
+       
         };
         console.log(newProduct);
-  
+        
         //fonction de refactorisation dans la condition if/else : ajouter un produit sélectionné 
         //dans le localStorage
         function addProductLocalStorage () {
         cartArray.push(newProduct);//on pousse le produit dans le panier
         localStorage.setItem("cart", JSON.stringify(cartArray));/*on convertit le javascript en chaine 
         de caractère JSON pour que le produit apparaisse dans le localStorage*/
+         
         }
-  
-  
+
+
         // condition si déjà présent (if) ou non (else)
   
         if (cartArray) {// si dans le panier il y a déjà un produit 
@@ -65,11 +69,13 @@ function addToCart () {
   
                 //newProduct.useQuantity = 1 // il crée une quantité 
                 addProductLocalStorage(); 
+               
             }
         }
         else { //sinon le panier est vide 
             cartArray = []
             addProductLocalStorage(); 
+          
         }
     
 
