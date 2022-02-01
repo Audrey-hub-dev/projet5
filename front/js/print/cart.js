@@ -5,7 +5,6 @@
 let cartArray = JSON.parse(localStorage.getItem("cart"))
 console.log(cartArray); 
 
-
 //créer et insérer des éléments dans la page panier
 
 //sélection de la l'id où je vais insérer le code html 
@@ -52,11 +51,32 @@ let title = document.createElement("h2");
 itemContentTitlePrice.appendChild(title);
 title.innerHTML = cartArray[product].useName; 
 
-//je crée l'élément p qui sera le prix dans la div titlePrice
-let productPrice = document.createElement("p");
-itemContentTitlePrice.appendChild(productPrice);
-productPrice.innerHTML = cartArray[product].usePrice + "€";
 
+//je crée l'élément p qui sera le prix dans la div titlePrice grâce à fetch 
+
+/*fonction pour aller chercher les données dans l'API*/
+let productData = []; // les données sont contenues dans une variable
+async function fetchProduct() {//fonction pour fetch
+    await fetch('http://localhost:3000/api/products/')
+        .then((res) => res.json())
+        .then((data) => (productData = data)); 
+};       
+fetchProduct();//je passe les données recueillies par fetch à la variable productData
+
+/*fonction pour afficher les données dans le navigateur web*/
+async function productDisplay () { //fonction d'affichage
+    await fetchProduct();
+   // fetchProduct est appelé pour la fonction productDisplay
+   
+    let productPrice = document.createElement("p");
+    itemContentTitlePrice.appendChild(productPrice);
+    productPrice.innerHTML = productData[product].price + "€"
+    productPrice.setAttribute('id', 'priceFetch')
+    
+}
+
+productDisplay();
+    
 //je crée l'élément p qui sera la couleur dans la div titlePrice
 let productColor = document.createElement("p");
 itemContentTitlePrice.appendChild(productColor);
@@ -94,14 +114,13 @@ let itemContentSettingsDelete = document.createElement("div");
 itemContentSettings.appendChild(itemContentSettingsDelete);
 itemContentSettingsDelete.className = "cart__item__content__settings__delete";
 
-//je créeune sous-div dans cette deuxième sous-div delete
+//je crée une sous-div dans cette deuxième sous-div delete
 let productDelete = document.createElement("p");
 itemContentSettingsDelete.appendChild(productDelete); 
 productDelete.className = "deleteItem";
 productDelete.innerHTML = "supprimer";
 
 }}; 
-
 
 // création du total des quantités
  var itemTotalQ = document.getElementsByClassName('itemQuantity');
@@ -117,20 +136,30 @@ productDelete.innerHTML = "supprimer";
  console.log(totalQuantity);
 
 
+
 //création du calcul des prix 
-//je sélectionne l'élément de quantité de chaque produit
-let itemQ = document.getElementsByClassName('itemQuantity');
-//je crée la variable quantityPrice pour récupérer toutes les quantités 
-let quantityPrice = itemQ.length;
-//je définis le prix total par un nombre
-totalP = 0;
-//je récupère le prix total dans les quantités totales lors de la modification de quantité dans le panier 
-for (let m = 0; m < quantityPrice; m++) {//création d'une recherche des quantités dans le panier avec une boucle 
-    totalP += (itemQ[m].valueAsNumber * cartArray[m].usePrice);
-    // le prix total est égal à la valeur de quantité de chaque produit multiplié par le prix de celui-ci
-}   
-// j'affiche l'élément du total price
+/*fonction pour aller chercher les données dans l'API*/
+
+let productData = []; // les données sont contenues dans une variable
+async function fetchProduct() {//fonction pour fetch
+    await fetch('http://localhost:3000/api/products/')
+        .then((res) => res.json())
+        .then((data) => (productData = data)); 
+};       
+fetchProduct();//je passe les données recueillies par fetch à la variable productData
+
+//function pour calculer la somme totale 
+async function totalPrice () { //fonction d'affichage
+    await fetchProduct();
+totalP= 0
+for (let product in cartArray){
+
+//le prix total est égal à la valeur de quantité de chaque produit multiplié par le prix de celui-ci
+totalP += (itemQ[product].valueAsNumber * productData[product].price);
+
 let productTotalPrice = document.getElementById('totalPrice');
     productTotalPrice.innerHTML = totalP;
     console.log(totalP);
-
+   }
+}
+totalPrice()
