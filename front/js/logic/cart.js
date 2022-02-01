@@ -1,3 +1,5 @@
+//étape 9
+
 // modification d'une quantité dans le panier
 function quantityMod() {
     //je sélectionne l'élément quantité que l'on peut modifier
@@ -75,14 +77,114 @@ deleteItem();
 
 // étape 10 : passer la commande
 
+//sélection du formulaire 
+let form = document.querySelector(".cart__order__form");
+
+//expression de fonction pour le prénom, le nom et la ville car même expression régulière
+let regExFirstLastCity = new RegExp("^[A-Za-z'zéèêëàâîïôöûüçÀÂÉÈÔÙÛÇ-]{3,30}$")
+    
+//expression de fonction pour l'adresse postale
+ let regExAddress = new RegExp("^[A-Za-z0-9]{2,50}|[A-Za-z]{2,50}&(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$")
+    
+//expression de fonction pour l'email
+ let regExEmail = new RegExp("^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$")
+    
+
+//ecouter la modification du prénom
+form.firstName.addEventListener('change', function() {
+    validFirstName(this);
+});
+//contrôle de la saisie du prénom 
+const validFirstName = function(inputFirstName) {
+    let testFirstName = regExFirstLastCity.test(inputFirstName.value);
+    let firstNameErrorMsg = inputFirstName.nextElementSibling;
+
+    if (testFirstName) { //si testFirstName vrai, je récupère la balise suivante qui est emailErrorMsg
+    // et on change la balise qui est juste en dessous
+        firstNameErrorMsg.innerHTML = ""
+    }
+    else{
+        firstNameErrorMsg.innerHTML = "prénom non valide"
+    }
+};
+
+//ecouter la modification du nom 
+form.lastName.addEventListener('change', function() {
+    validLastName(this);
+});
+//contrôle de la saisie du nom 
+const validLastName = function(inputLastName) {
+    let testLastName = regExFirstLastCity.test(inputLastName.value);
+    let lastNameErrorMsg = inputLastName.nextElementSibling;
+
+    if (testLastName) { 
+        lastNameErrorMsg.innerHTML = ""
+    }
+    else{
+        lastNameErrorMsg.innerHTML = "nom non valide"
+    }
+};
+
+//ecouter la modification de l'adresse
+form.address.addEventListener('change', function() {
+    validAddress(this);
+});
+//contrôle de la saisie de l'adresse
+const validAddress = function(inputAddress) {
+    let testAddress = regExAddress.test(inputAddress.value);
+    let addressErrorMsg = inputAddress.nextElementSibling;
+ 
+    if (testAddress) { 
+        addressErrorMsg.innerHTML = ""
+    }
+    else{
+        addressErrorMsg.innerHTML = "adresse non valide"
+    }
+};
+
+//ecouter la modification de la ville
+form.city.addEventListener('change', function() {
+    validCity(this);
+});
+//contrôle de la saisie de la ville
+const validCity = function(inputCity) {
+    let testCity = regExFirstLastCity.test(inputCity.value);
+    let cityErrorMsg = inputCity.nextElementSibling;
+    
+    if (testCity) { 
+        cityErrorMsg.innerHTML = ""
+    }
+    else{
+        cityErrorMsg.innerHTML = "ville non valide"
+    }
+};
+
+
+//ecouter la modification de l'email 
+form.email.addEventListener('change', function() {
+    validEmail(this);
+});
+//contrôle de la saisie de l'email
+const validEmail = function(inputEmail) {
+    let testEmail = regExEmail.test(inputEmail.value);
+    let emailErrorMsg = inputEmail.nextElementSibling;
+   
+    if (testEmail) { 
+        emailErrorMsg.innerHTML = ""
+    }
+    else{
+        emailErrorMsg.innerHTML = "email non valide"
+    }
+};
+
+
+
 //sélection du bouton "commmander"
 const orderBtn = document.querySelector("#order");
 
 //écoute du bouton order
 orderBtn.addEventListener("click", (event) => {
     event.preventDefault();
-
-//début de la gestion des expressions régulières et de la sauvegarde du localStorage
 
 //récupération des valeurs du formulaire 
 const formValues = {
@@ -92,181 +194,64 @@ const formValues = {
     city: document.querySelector("#city").value,
     email: document.querySelector("#email").value,
 }
-console.log("formValues")
-console.log(formValues)
+    //console.log("formValues")
+    //console.log(formValues)
 
-
-
-//expression de fonction pour le prénom, le nom et la ville car même expression régulière
-let regExFirstLastCity = (value) => {
-    return /^[A-Za-z'zéèêëàâîïôöûüçÀÂÉÈÔÙÛÇ-]{3,30}$/.test(value)
-}
-//expression de fonction pour l'adresse postale
-let regExAddress = (value) => {
-    return /^[0-9]{1,3}(?:(?:[,. ]){1}[-a-zA-Zàâäéèêëïîôöùûüç]+)+$/.test(value)
-}
-//expression de fonction pour l'email
-let regExEmail = (value) => {
-    return /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/.test(value)
-}
-
-//contrôle du prénom
-function controlFirstName() {
-    let firstNameRegex = formValues.firstName;
-    let firstErrorMsg = document.getElementById("firstNameErrorMsg");
-    //contrôle des expressions régulières
-    if (regExFirstLastCity(firstNameRegex)) {// utilisation des expressions régulières
-        //uniquement les lettres de a à z, min 2 caractères et max 25
-        firstErrorMsg.innerHTML= ""
-        return true
-
-    }else{
-        firstErrorMsg.innerHTML = "Le champ n'est pas correct"
-        console.log(firstErrorMsg)
-        return false  
-    }
-};
-
-//contrôle du nom 
-function controlLastName() {
-let lastNameRegex = formValues.lastName;
-let lastErrorMsg = document.getElementById("lastNameErrorMsg");
-
-// contrôle expression régulière
-    if (regExFirstLastCity(lastNameRegex)) {// utilisation des expressions régulières
-    //uniquement les lettres de a à z, min 2 caractères et max 25
-        lastErrorMsg.innerHTML =""
-        return true
-
-    }else{
-        lastErrorMsg.innerHTML = "Le champ n'est pas correct"
-        console.log(lastErrorMsg)
-        return false
-    }
-};
-
-//contrôle de l'adresse 
-function controlAddress() {
-    let addressRegex = formValues.address;
-    let addressErrorMsg = document.getElementById("addressErrorMsg");
-
-    //contrôle expression régulière
-    if (regExAddress(addressRegex)) {/*soit donc un ensemble quelconque de chiffre suivit éventuellement d'un espace
-        suivit d'un ensemble quelconque de lettres espaces virgules ou points suivit éventuellement d'un espace suivit d'une suite de 5 chiffres suivit éventuellement d'un espace suivit d'une ensemble quelconque de lettres
-        */
-       addressErrorMsg.innerHTML = ""
-        return true
-    }else{
-        addressErrorMsg.innerHTML = "Le champ n'est pas correct"
-        console.log(addressErrorMsg)
-        return false
-    }
-};
-    
-//contrôle de la ville 
-function controlCity() {
-    let cityRegex = formValues.city;
-    let cityErrorMsg = document.getElementById("cityErrorMsg");
-
-    //contrôle expression régulière
-    if (regExFirstLastCity(cityRegex)) {
-        cityErrorMsg.innerHTML = ""
-        return true
+        //le bouton commander s'active uniquement si le formulaire est bien rempli 
+        if (validFirstName(form.firstName) 
+            && validLastName(form.lastName)
+            && validAddress (form.address)
+            && validCity (form.city)
+            && validEmail (form.email)) {
+               
+                form.click();
+                
+            }  
+            //sauvegarde des données du formulaire dans le localStorage
+            localStorage.setItem("formValues", JSON.stringify(formValues));
         
-    }else{
-        cityErrorMsg.innerHTML = "Le champ n'est pas correct"
-        console.log(cityErrorMsg)
-        return false
-    }
-};
 
-//contrôle de l'email 
-function controlEmail() {
-    let emailRegex = formValues.email;
-    let emailErrorMsg = document.getElementById("emailErrorMsg");
+        // constitution d'un objet tableau de produits 
+        let arrayProducts = [];
+        for (let i = 0; i<cartArray.length;i++) {
+            arrayProducts.push(cartArray[i].id);
+        }
+        //mettre les valeurs du formulaire et les produits sélectionnés dans un objet à envoyer au serveur
 
-    //contrôle expression régulière
-    if (regExEmail(emailRegex)) {
-        emailErrorMsg.innerHTML = ""
-        return true
-    }else{
-        emailErrorMsg.innerHTML = "Le champ n'est pas correct"
-        console.log(emailErrorMsg)
-        return false
-    }
-};
+        const order = { 
+            // constitution d'un objet contact à partir des données du formulaire
+            contact: formValues,
+            products : arrayProducts, 
+        };
 
-//sauvegarde du localStorage pour l'envoie au serveur
- 
-if (controlFirstName() && controlLastName() && controlAddress() &&controlCity && controlEmail()) {
-    //Mettre les valeurs (l'objet formValues) dans le localStorage
-    localStorage.setItem("formValues", JSON.stringify(formValues));
-    
-}else{
-    alert("veuillez renseigner correctement les champs")   
-};
-
-
-//fin de la gestion des expressions régulières et de la sauvegarde du localStorage
-
-//début gestion de l'envoi des données du formulaire au serveur 
-
-// constitution d'un objet tableau de produits 
-let arrayProducts = [];
-for (let i = 0; i<cartArray.length;i++) {
-    arrayProducts.push(cartArray[i].id);
-}
-//mettre les valeurs du formulaire et les produits sélectionnés dans un objet à envoyer au serveur
-
-const order = { 
-    // constitution d'un objet contact à partir des données du formulaire
-    contact: formValues,
-    products : arrayProducts, 
-};
-
-const promise = fetch('http://localhost:3000/api/products/order', {
-    method: "POST",
-    body: JSON.stringify(order),
-    headers: {
-        'Accept': 'application/json',
-        "Content-Type" : "application/json",
-    }
-}); 
-console.log(promise)
+        const promise = {
+            method: "POST",
+            body: JSON.stringify(order),
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type" : "application/json",
+            }
+        };
+        //console.log(promise)
+        fetch("http://localhost:3000/api/products/order", promise)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data);
+            //mettre l'id dans le localStorage
+            localStorage.setItem("orderId", data.orderId);
+            //rediriger vers la page confirmation 
+            window.location = 'confirmation.html'
+          
+        })
+        .catch((err) => {
+            alert ("Erreur : " + err.message);
+        });
 
 
-//}); //fin écoute du bouton 
+}); //fin écoute du bouton order
 
 
-//sauvegarder les champs du formulaire 
-const dataForm = localStorage.getItem("formValues");
-const dataFormArray = JSON.parse(dataForm);
-
-//mettre les valeurs du localStorage dans les champs du formulaire
-//document.querySelector("#firstName").setAttribute('value', dataFormArray.firstName)
-
-//fonction pour sauvegarder les données du formulaire 
-function saveForm(input) {
-    //condition pour ne pas avoir de problème dans la console si le formulaire est vide
-    if (dataFormArray == null){   
-        
-    }else{
-    document.querySelector(`#${input}`).value = dataFormArray[input]; 
-    }
-};
-
-saveForm("firstName");
-saveForm("lastName");
-saveForm("address");
-saveForm("city");
-saveForm("email")
-
-console.log("dataFormArray"); 
-
- 
-}) // fin du bouton écoute 
 
 
-//fin de gestion de l'envoi des données du formulaire au serveur 
 
 
