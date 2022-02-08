@@ -186,14 +186,14 @@ const orderBtn = document.querySelector("#order");
 orderBtn.addEventListener("click", (event) => {
     event.preventDefault();
 
-//récupération des valeurs du formulaire 
-const formValues = {
+    //récupération des valeurs du formulaire 
+    const formValues = {
     firstName: document.querySelector("#firstName").value,
     lastName: document.querySelector("#lastName").value,
     address: document.querySelector("#address").value,
     city: document.querySelector("#city").value,
     email: document.querySelector("#email").value,
-}
+    }
     //console.log("formValues")
     //console.log(formValues)
 
@@ -248,7 +248,7 @@ const formValues = {
         });
 
 
-}); //fin écoute du bouton order
+})
 
 
 
