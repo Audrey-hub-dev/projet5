@@ -25,9 +25,6 @@ let btn = document.getElementById("addToCart");
         useQuantity: Number (optionQuantity),
         useImg: productData.imageUrl,
         useName: productData.name,
-        //usePrice: productData.price
-        //suppression du prix dans le localStorage
-       
         };
         //console.log(newProduct);
         
