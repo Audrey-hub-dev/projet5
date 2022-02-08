@@ -2,7 +2,7 @@
 
 // Je sélectionne et stocke la balise Section items
 const itemsContainer = document.querySelector('.items');
-console.log(itemsContainer);
+//console.log(itemsContainer);
 
 //Utilisation du DOM pour récupérer les éléments de la page index.html
 
@@ -50,7 +50,7 @@ async function fetchProduct() {//fonction pour fetch
         .then((res) => res.json())
         .then((data) => (productData = data)); 
       
-    console.log(productData);//vérification que l'on a bien les données dans la console
+    //console.log(productData);//vérification que l'on a bien les données dans la console
 };       
 fetchProduct();//je passe les données recueillies par fetch à la variable productData
 
