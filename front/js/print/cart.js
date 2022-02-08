@@ -138,7 +138,7 @@ productDelete.innerHTML = "supprimer";
 
 
 //création du calcul des prix 
-/*fonction pour aller chercher les données dans l'API*/
+//fonction pour aller chercher les données dans l'API
 
 let productData = []; // les données sont contenues dans une variable
 async function fetchProduct() {//fonction pour fetch
@@ -148,7 +148,7 @@ async function fetchProduct() {//fonction pour fetch
 };       
 fetchProduct();//je passe les données recueillies par fetch à la variable productData
 
-//function pour calculer la somme totale 
+//fonction pour calculer la somme totale 
 async function totalPrice () { //fonction d'affichage
     await fetchProduct();
 
