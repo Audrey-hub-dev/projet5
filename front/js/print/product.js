@@ -4,7 +4,7 @@
 var str = window.location.href;
 var url = new URL(str);
 var productId = url.searchParams.get("_id");
-console.log(productId);
+//console.log(productId);
 
 
 // étape 6 : insérer un produit et ses détails dans la page produit 
@@ -21,7 +21,7 @@ async function fetchProduct() {
   .then((data) => { 
     
     productData = data
-    console.log(data);
+    //console.log(data);
   });
 
 };
@@ -42,9 +42,9 @@ async function productDisplay() {
 
   
   let select = document.getElementById("colors")
-  console.log(select);
+  //console.log(select);
 
-  console.log(productData.colors);
+  //console.log(productData.colors);
   productData.colors.forEach((colors) => { // on utilise une boucle pour parcourir le tableau
     
   let tagOption = document.createElement("option");
