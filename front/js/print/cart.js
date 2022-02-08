@@ -3,13 +3,13 @@
 //depuis la page panier, récupérer le panier (l'array) via localStorage
 
 let cartArray = JSON.parse(localStorage.getItem("cart"))
-console.log(cartArray); 
+//console.log(cartArray); 
 
 //créer et insérer des éléments dans la page panier
 
 //sélection de la l'id où je vais insérer le code html 
 const cartItems = document.querySelector("#cart__items");
-console.log(cartItems); 
+//console.log(cartItems); 
 
 //si le panier est vide
 if(cartArray === null) {
@@ -103,7 +103,7 @@ quantity.appendChild(inputQuantity);
 inputQuantity.value = cartArray[product].useQuantity;
 inputQuantity.setAttribute("type", "number");
 inputQuantity.className = "itemQuantity";
-inputQuantity.setAttribute('id', 'itemQ');
+//inputQuantity.setAttribute('id', 'itemQ');
 inputQuantity.setAttribute("name", "itemQuantity");
 inputQuantity.setAttribute("min", "1");
 inputQuantity.setAttribute("max", "100");
@@ -133,7 +133,7 @@ productDelete.innerHTML = "supprimer";
 // j'affiche l'élément du total quantités
  let productTotalQuantity = document.getElementById('totalQuantity');
  productTotalQuantity.innerHTML = totalQuantity;
- console.log(totalQuantity);
+ //console.log(totalQuantity);
 
 
 
@@ -151,15 +151,18 @@ fetchProduct();//je passe les données recueillies par fetch à la variable prod
 //function pour calculer la somme totale 
 async function totalPrice () { //fonction d'affichage
     await fetchProduct();
-totalP= 0
+
+
+totalItem = 0
 for (let product in cartArray){
 
-//le prix total est égal à la valeur de quantité de chaque produit multiplié par le prix de celui-ci
-totalP += (itemQ[product].valueAsNumber * productData[product].price);
+    //le prix total est égal à la valeur de quantité de chaque produit 
+    //multiplié par le prix de celui-ci
+    totalItem += (itemTotalQ[product].valueAsNumber * productData[product].price);
 
-let productTotalPrice = document.getElementById('totalPrice');
-    productTotalPrice.innerHTML = totalP;
-    console.log(totalP);
+    let productTotalPrice = document.getElementById('totalPrice');
+    productTotalPrice.innerHTML = totalItem;
+    //console.log(totalItem);
    }
 }
 totalPrice()
