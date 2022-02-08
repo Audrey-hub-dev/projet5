@@ -197,19 +197,19 @@ const formValues = {
     //console.log("formValues")
     //console.log(formValues)
 
-        //le bouton commander s'active uniquement si le formulaire est bien rempli 
+        //le bouton commander s'active uniquement si le formulaire est bien rempli et que 
+        //le panier contient au moins un article
         if (validFirstName(form.firstName) 
             && validLastName(form.lastName)
             && validAddress (form.address)
             && validCity (form.city)
-            && validEmail (form.email)) {
-               
-                form.click();
-                
+            && validEmail (form.email)
+            && cartArray != [])
+             {
+               form.click();
+                //sauvegarde des données du formulaire dans le localStorage
+                localStorage.setItem("formValues", JSON.stringify(formValues));
             }  
-            //sauvegarde des données du formulaire dans le localStorage
-            localStorage.setItem("formValues", JSON.stringify(formValues));
-        
 
         // constitution d'un objet tableau de produits 
         let arrayProducts = [];
@@ -236,7 +236,7 @@ const formValues = {
         fetch("http://localhost:3000/api/products/order", promise)
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            //console.log(data);
             //mettre l'id dans le localStorage
             localStorage.setItem("orderId", data.orderId);
             //rediriger vers la page confirmation 
