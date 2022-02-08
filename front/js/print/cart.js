@@ -123,23 +123,25 @@ productDelete.innerHTML = "supprimer";
 }}; 
 
 // création du total des quantités
- var itemTotalQ = document.getElementsByClassName('itemQuantity');
- var totalProducts = itemTotalQ.length,
+//fonction du total des quantités
+function totalQuantities () {
+ let itemTotalQ = document.getElementsByClassName('itemQuantity');
+ let totalProducts = itemTotalQ.length,
  totalQuantity = 0;
 
- for (var i = 0; i < totalProducts; ++i) {
+ for (let i = 0; i < totalProducts; ++i) {
      totalQuantity += itemTotalQ[i].valueAsNumber;
  }
 // j'affiche l'élément du total quantités
  let productTotalQuantity = document.getElementById('totalQuantity');
  productTotalQuantity.innerHTML = totalQuantity;
  //console.log(totalQuantity);
-
+}
+totalQuantities()
 
 
 //création du calcul des prix 
 //fonction pour aller chercher les données dans l'API
-
 let productData = []; // les données sont contenues dans une variable
 async function fetchProduct() {//fonction pour fetch
     await fetch('http://localhost:3000/api/products/')
@@ -154,12 +156,11 @@ async function totalPrice () { //fonction d'affichage
 
 
 totalItem = 0
+let itemTotalQ = document.getElementsByClassName('itemQuantity');
 for (let product in cartArray){
-
     //le prix total est égal à la valeur de quantité de chaque produit 
     //multiplié par le prix de celui-ci
     totalItem += (itemTotalQ[product].valueAsNumber * productData[product].price);
-
     let productTotalPrice = document.getElementById('totalPrice');
     productTotalPrice.innerHTML = totalItem;
     //console.log(totalItem);
