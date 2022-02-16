@@ -64,10 +64,7 @@ function deleteItem() {
             //sauvegarde du nouveau panier dans le localStorage
             localStorage.setItem('cart', JSON.stringify(cartArray))
 
-        }else{
-
-            
-        } 
+        }
         
         })
     }
