@@ -66,6 +66,7 @@ function deleteItem() {
 
         }else{
 
+            
         } 
         
         })
@@ -106,6 +107,7 @@ const validFirstName = function(inputFirstName) {
     else{
         firstNameErrorMsg.innerHTML = "prénom non valide"
     }
+
 };
 
 //ecouter la modification du nom 
